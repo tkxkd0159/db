@@ -18,7 +18,7 @@ async function insertSQL(dbname: string, mode?: string) {
             user: "ljs",
             password: "secret",
             host: "localhost",
-            port: 5444,
+            port: 5432,
             database: "postgres",
         });
         await client.connect();
@@ -52,7 +52,7 @@ async function insertSQL(dbname: string, mode?: string) {
         user: "ljs",
         password: "secret",
         host: "localhost",
-        port: 5444,
+        port: 5432,
         database: dbname,
     });
     await client.connect();
@@ -83,7 +83,7 @@ async function setAuthTable(dbname: string) {
         user: "ljs",
         password: "secret",
         host: "localhost",
-        port: 5444,
+        port: 5432,
         database: dbname
     })
     await client.connect();

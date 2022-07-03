@@ -72,7 +72,7 @@ async function DBTest() {
         user: "ljs",
         password: "secret",
         host: "localhost",
-        port: 5444,
+        port: 5432,
         database: "myapp-test",
     });
     await client.connect();
