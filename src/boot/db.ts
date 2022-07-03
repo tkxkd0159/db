@@ -68,4 +68,39 @@ async function insertSQL(dbname: string, mode?: string) {
     }, 1000);
 }
 
-export default insertSQL;
+// INSERT INTO federated_credentials(provider, subject, name) VALUES('https://accounts.google.com', 'tkxkd0159', 'JAESEUNG LEE');
+async function setAuthTable(dbname: string) {
+    const sqlpath = path.join(__dirname, '..', 'db/schema/init.auth.sql');
+    const tmp = await fs.readFile(sqlpath, { encoding: 'utf8'});
+    const data = tmp.split(";");
+    const qset = [];
+    for (let q of data) {
+        qset.push(q.trim());
+    }
+    qset.pop();
+
+    const client = new Client({
+        user: "ljs",
+        password: "secret",
+        host: "localhost",
+        port: 5444,
+        database: dbname
+    })
+    await client.connect();
+
+    for (let q of qset) {
+        client.query(q, (err, res) => {
+            console.error("ERROR : ", err);
+        })
+    }
+
+    setTimeout(() => {
+        client.end();
+    }, 1000);
+
+}
+
+export {
+    insertSQL,
+    setAuthTable
+}

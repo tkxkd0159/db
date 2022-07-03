@@ -106,7 +106,7 @@ async function DBTest() {
     }
 }
 
-redisTest();
+// redisTest();
 async function redisTest() {
     const redisC = await redis.getClient();
     await redisC.set("first-key", "first-val");

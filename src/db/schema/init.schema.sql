@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS app1.contacts(
    phone varchar(255) not null
 );
 
-INSERT INTO app1.contacts(name, phone) VALUES('ljs', '010-2222-3333');
+INSERT INTO app1.contacts(name, phone) VALUES('ljs', '010-4444-355333');

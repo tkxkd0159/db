@@ -1,3 +1,4 @@
-import initPgDB from './db'
+import {insertSQL, setAuthTable} from './db'
 
-initPgDB("jssub", "createdb");
+// insertSQL("jssub", "createdb");
+setAuthTable("jssub");
