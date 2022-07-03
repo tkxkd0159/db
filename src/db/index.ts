@@ -24,7 +24,7 @@ export default {
         const client = await pool.connect();
         const release = client.release;
 
-        // set a timeout of 5 seconds, after which we will log this client's last query
+        // set a timeout of 5 seconds
         const timeout = setTimeout(() => {
             console.error(
                 "A client has been checked out for more than 5 seconds!"

@@ -18,3 +18,9 @@ docker exec -it <container_name> mongo -u "jsadmin" -p "secret"
 docker run -d -p 5432:5432 --name jspg -e POSTGRES_PASSWORD=secret postgres
 docker exec -it <container_name> psql -U postgres
 ```
+
+## Redis
+```sh
+docker run --name jsredis -p 6379:6379 -d redis
+docker exec -it jsredis redis-cli
+```

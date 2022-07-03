@@ -1,4 +1,3 @@
-import fs from "fs/promises";
 import { Server } from "http";
 import mongoose from "mongoose";
 import { Client } from "pg";
@@ -6,7 +5,7 @@ import { Client } from "pg";
 import conf from "./config";
 import { app } from "./app";
 import pgdb from "./db";
-import {delay} from "./utils";
+import redis from "./db/redis"
 
 
 let server: Server;
@@ -107,68 +106,19 @@ async function DBTest() {
     }
 }
 
-insertSQL("jssub", "createdb");
-async function insertSQL(dbname: string, mode?: string) {
-    if (mode === "createdb") {
-        const initfp = __dirname + "/db/schema/init.db.sql";
-        const tmp = await fs.readFile(initfp, { encoding: "utf8" });
-        const data = tmp.split(";");
-        const initq = [];
-        for (let elem of data) {
-            initq.push(elem.trim());
-        }
-        initq.pop();
+redisTest();
+async function redisTest() {
+    const redisC = await redis.getClient();
+    await redisC.set("first-key", "first-val");
+    const value = await redisC.get('first-key');
+    console.log("Get value from Redis : ", value);
+    const newRedisC = await redis.getClient();
+    let value2 = await newRedisC.get('first-key');
+    console.log("Get value from Redis 2nd: ", value2);
+    newRedisC.quit();
 
-        const client = new Client({
-            user: "ljs",
-            password: "secret",
-            host: "localhost",
-            port: 5444,
-            database: "postgres",
-        });
-        await client.connect();
+    // ClientClosedError: The client is closed
+    // let value3 = await redisC.get('first-key');
+    // console.log("Get value from Redis 3rd: ", value3);
 
-        for (let i = 0; i < initq.length; i++) {
-            if (i === initq.length - 1) {
-                client.query(initq[i], (err, res) => {
-                    console.log("ERROR during initdb : ", null);
-                    client.end();
-                });
-            } else {
-                client.query(initq[i], (err, res) => {
-                    console.log("ERROR during initdb : ", null);
-                });
-            }
-        }
-    }
-
-    await delay(1000);
-
-    const filepath = __dirname + "/db/schema/init.schema.sql";
-    const tmp = await fs.readFile(filepath, { encoding: "utf8" });
-    const data = tmp.split(";");
-    const q = [];
-    for (let elem of data) {
-        q.push(elem.trim());
-    }
-    q.pop();
-
-    const client = new Client({
-        user: "ljs",
-        password: "secret",
-        host: "localhost",
-        port: 5444,
-        database: dbname,
-    });
-    await client.connect();
-
-    for (let target of q) {
-        client.query(target, (err, res) => {
-            console.log("ERROR : ", err);
-        });
-    }
-
-    setTimeout(() => {
-        client.end();
-    }, 1000);
 }
