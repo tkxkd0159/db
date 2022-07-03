@@ -8,8 +8,9 @@
 </head>
 <body>
     <p>Seession ID : <%= sessid %></p>
+    <p>csrf token : <%= csrf %></p>
     <form action="/session/process" method="POST">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
         Favorite color: <input type="text" name="favoriteColor">
         <button type="submit">Submit</button>
       </form>

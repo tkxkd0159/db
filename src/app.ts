@@ -39,9 +39,13 @@ redisClient.connect().catch(console.error)
 app.use(session({
     store: new RedisStore({ client: redisClient }),
     saveUninitialized: false,
-    secret: "keyboard cat",
+    secret: conf.secret as string,
     resave: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 2
+    }
 }))
+app.locals.redis = redisClient;
 
 
 app.use(mongoSanitize());
@@ -52,7 +56,8 @@ app.use(cors());
 app.use("/v1", v1route);
 app.use("/cookie", csrfCookie, ckroute);
 app.use("/session", csrfSess, (req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
+    res.cookie('XSRF-TOKEN', req.csrfToken()); // for SPA
+    res.locals.csrf = req.csrfToken();
     res.locals.sessid = req.sessionID;
     next();
 },sessroute);

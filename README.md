@@ -1,5 +1,11 @@
 # db
 
+## Server
+change session secret when it is hijacked. so we can invalidate previous sessions
+```sh
+kill -15 <app_pid>
+```
+
 ## MongoDB
 ```sh
 docker run -d --name jsmongo \
