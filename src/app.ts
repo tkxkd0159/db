@@ -36,27 +36,36 @@ const csrfSess = csrf();
 const RedisStore = connectredis(session)
 let redisClient = createClient({ legacyMode: true })
 redisClient.connect().catch(console.error)
-app.use(session({
+const sessOpt: session.SessionOptions = {
     store: new RedisStore({ client: redisClient }),
     saveUninitialized: false,
     secret: conf.secret as string,
     resave: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 2
+    cookie: {}
+}
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1);
+    if (sessOpt.cookie) {
+        sessOpt.cookie.maxAge = 1000 * 60 * 60 * 2;
+        sessOpt.cookie.secure = true;
     }
-}))
+    const whiteList = ['http://localhost:3333', /\.google\.com$/];
+    app.use(cors({origin: whiteList}));
+} else {
+    app.use(cors());
+}
+app.use(session(sessOpt))
 app.locals.redis = redisClient;
 
 
 app.use(mongoSanitize());
 app.use(helmet());
 app.use(compress());
-app.use(cors());
 
 app.use("/v1", v1route);
 app.use("/cookie", csrfCookie, ckroute);
 app.use("/session", csrfSess, (req, res, next) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken()); // for SPA
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {httpOnly: false}); // for SPA
     res.locals.csrf = req.csrfToken();
     res.locals.sessid = req.sessionID;
     next();

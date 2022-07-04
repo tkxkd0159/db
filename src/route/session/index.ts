@@ -6,6 +6,10 @@ router.get("/", function(req, res) {
     res.json({msg: "I am hello from session", csrfToken: req.csrfToken(), expired: req.session.cookie.maxAge})
 })
 
+router.get("/csrf", async (req, res) => {
+    res.json({value: req.csrfToken()});
+});
+
 router.get("/form", async (req, res) => {
     res.render("send/send-sess");
 });
