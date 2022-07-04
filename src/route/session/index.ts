@@ -15,10 +15,7 @@ router.get("/form", async (req, res) => {
 });
 
 router.post("/process", async (req, res) => {
-    let sessData = await req.app.locals.redis.v4.get(`sess:${req.sessionID}`)
-    sessData = JSON.parse(sessData)
-    sessData['jwt'] = 'validatedJWT'
-    await req.app.locals.redis.v4.set(`sess:${req.sessionID}`, JSON.stringify(sessData))
+    req.session.jwt = "newValidatedJWT"
     res.send(`data is being processed: ${req.body['favoriteColor']}`);
 });
 

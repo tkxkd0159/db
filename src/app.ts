@@ -68,6 +68,9 @@ app.use("/session", csrfSess, (req, res, next) => {
     res.cookie('XSRF-TOKEN', req.csrfToken(), {httpOnly: false}); // for SPA
     res.locals.csrf = req.csrfToken();
     res.locals.sessid = req.sessionID;
+    if (!req.session.user) {
+        req.session.user = "LJS"
+    }
     next();
 },sessroute);
 
