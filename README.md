@@ -21,8 +21,11 @@ docker exec -it <container_name> mongo -u "jsadmin" -p "secret"
 
 ## PostgreSQL
 ```sh
-docker run -d -p 5432:5432 --name jspg -e POSTGRES_PASSWORD=secret postgres
-docker exec -it <container_name> psql -U postgres
+docker run -d --rm -p 6666:5432 --name jspg -e PGDATA=/var/lib/postgresql/data/pgdata -v pgdata:/var/lib/postgresql/data -e POSTGRES_USER=ljs -e POSTGRES_PASSWORD=secret postgres
+docker exec -it <container_name> psql -U postgres --dbname <dbname>
+
+# Import
+pg_restore -U ljs -d dvdrental ~/sda/dbsample/dvdrental.tar
 ```
 
 ## Redis
