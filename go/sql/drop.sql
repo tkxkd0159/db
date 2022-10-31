@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS pilot_languages;
+DROP TABLE IF EXISTS languages;
+DROP TABLE IF EXISTS jets;
+DROP TABLE IF EXISTS pilots;
