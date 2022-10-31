@@ -1,0 +1,14 @@
+output   = "models"
+wipe     = true
+no-tests = true
+no-hooks = true
+add-enum-types = true
+
+[psql]
+dbname = "ljs"
+schema = "public"
+host = "127.0.0.1"
+port = 6666
+user = "ljs"
+pass = "secret"
+sslmode = "disable"
