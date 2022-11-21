@@ -19,6 +19,11 @@ docker exec -it <container_name> mongo -u "jsadmin" -p "secret"
 > db.createUser({ user: "ljs", pwd: "secret", roles: [{role: "readWrite", db: "myapp"}, "readWrite"] })
 ```
 
+## MySQL
+```sh
+docker run --name jsmysql -e MYSQL_ROOT_PASSWORD=secret -p 3306:3306 -d mysql:8.0.31
+```
+
 ## PostgreSQL
 ```sh
 # 1. Docker
