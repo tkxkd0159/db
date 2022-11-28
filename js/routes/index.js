@@ -1,28 +1,29 @@
-import { Router } from 'express';
-var router = Router();
-import sql from '../db/sql.js';
+import { Router } from "express";
+import sql from "../db/sql.js";
+
+const router = Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", (_req, res, _next) => {
+  res.render("index", { title: "Express" });
 });
 
 const sectionIcons = [
-  '🍚', '🍿', '🍜', '🍣', '🥩', '☕', '🍰'
-]
+  "🍚", "🍿", "🍜", "🍣", "🥩", "☕", "🍰",
+];
 
-router.get('/sections', async function(req, res, next) {
+router.get("/sections", async (req, res, _next) => {
+  const sections = await sql.getSections();
 
-  const sections = await sql.getSections()
+  const sectionsWithIcon = sections.map((item) => {
+    const i = item;
+    i.icon = sectionIcons[item.section_id - 1];
+    return i;
+  });
 
-  sections.map((item) => {
-    item.icon = sectionIcons[item.section_id - 1]
-  })
-
-
-  res.render('sections', { 
-    title: '섹션 목록',
-    sections
+  res.render("sections", {
+    title: "섹션 목록",
+    sectionsWithIcon,
   });
 });
 
