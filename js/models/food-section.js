@@ -34,6 +34,11 @@ async function sectionsWithIcon() {
   });
 }
 
+export default {
+  findAll, findByID, sectionsWithIcon,
+};
+
 export {
-  FoodSection, findAll, findByID, sectionsWithIcon,
+  FoodSection,
+  sectionIcons,
 };
