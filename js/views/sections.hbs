@@ -6,11 +6,11 @@
       <span>🌎</span> 전체
     </a>
   </li>
-  {{#each sectionsWithIcon}}
+  {{#each list}}
     <li>
-      <a href="biz-simple?section={{ section_id }}">
+      <a href="biz-simple?section={{ id }}">
         <span>{{ icon }}</span>
-        {{ section_name }}
+        {{ name }}
       </a>
     </li>
   {{/each}}

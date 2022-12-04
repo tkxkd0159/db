@@ -24,5 +24,6 @@ module.exports = {
         variables: true,
       },
     ],
+    "lines-between-class-members": ["error", "always", { exceptAfterSingleLine: true }],
   },
 };
