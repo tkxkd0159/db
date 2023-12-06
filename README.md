@@ -28,10 +28,10 @@ docker run --name jsmysql -e MYSQL_ROOT_PASSWORD=secret -p 3306:3306 -d mysql:8.
 ```sh
 # 1. Docker
 docker run -d -p 6666:5432 --name jspg -e PGDATA=/var/lib/postgresql/data/pgdata -v pgdata:/var/lib/postgresql/data -e POSTGRES_USER=ljs -e POSTGRES_PASSWORD=secret postgres
-docker exec -it <container_name> psql -U postgres --dbname <dbname>
+docker exec -it <container_name> psql -U ljs --dbname <dbname>
 
 # 2. Local
-psql -h 127.0.0.1 -p 5432 -U <username> -d <dbname> -W
+psql -h 127.0.0.1 -p 5432 -U <username> -d <dbname>
 
 # Import
 pg_restore -U ljs -d dvdrental ~/sda/dbsample/dvdrental.tar
