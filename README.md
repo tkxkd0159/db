@@ -28,7 +28,7 @@ docker run --name jsmysql -e MYSQL_ROOT_PASSWORD=secret -p 3306:3306 -d mysql:8.
 ```sh
 # 1. Docker
 docker run --rm postgres cat /usr/share/postgresql/postgresql.conf.sample > postgresql.conf # get the default config
-docker run -p 5432:5432 --name jspg --mount type=bind,src="$(pwd)/postgresql.conf",dst=/etc/postgresql/postgresql.conf -e POSTGRES_PASSWORD=secret postgres -c 'config_file=/etc/postgresql/postgresql.conf' # conf file mode : 644
+docker run -d -p 5432:5432 --name jspg --mount type=bind,src="$(pwd)/postgresql.conf",dst=/etc/postgresql/postgresql.conf --mount type=volume,src=pgstore,dst=/var/lib/postgresql/data -e POSTGRES_PASSWORD=secret postgres -c 'config_file=/etc/postgresql/postgresql.conf'
 docker exec -it <container_name> psql -U ljs --dbname <dbname>
 
 # 2. Local
